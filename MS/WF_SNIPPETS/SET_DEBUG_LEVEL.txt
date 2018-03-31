@@ -1,0 +1,31 @@
+You now have to wonderful opportunity to set the debug level in your custom actions. Before you had to change it in the CA Common library.
+I’ve included a 5th parameter to the setGlobalLogger function. It’s called debugLevel and it has a default value of 2. 
+
+Valid debug levels are: 1, 2, 4.
+
+If you pass an invalid debug level, the function will default to a debug level of 2 and you’ll receive the message:
+“You used a debug level of debugLevel which is not a valid debug level. Defaulting to debug level of 2”
+
+Usage:
+•	If you want to change the debug level of a single custom action:
+o	setGlobalLogger(re, ie, oe, executor, debugLevel); - where debugLevel can have any of the valid debug level values
+
+•	if you want the debug level to propagate through all the custom actions in an entire flow
+o	create a parameter in the input entity for that flow or use and existing one to store the value of the debug level that you want
+o	create a field in the runtime entity to store the value of the debug level
+o	in the very first custom action, write something similar to
+
+    if (ie.debugLevel) {
+        try {
+            re.debugLevel = parseInt(ie.debugLevel);
+        } catch(e) {
+            re.debugLevel = 2;
+        }
+    } else {
+        re.debugLevel = 2;
+    }
+    
+    setGlobalLogger(re, ie, oe, executor, re.debugLevel);
+
+o	in all subsequent custom actions, if you want to use the same debug level that you’ve set in the first custom action, you have to include
+the line setGlobalLogger(re, ie, oe, executor, re.debugLevel);
