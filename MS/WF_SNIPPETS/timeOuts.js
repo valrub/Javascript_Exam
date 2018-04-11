@@ -10,7 +10,7 @@ var toOne = setInterval(function() {
   if(delayInMilliseconds < 100){
     clearInterval(toOne);
   }
-}, delayInMilliseconds);
+}, 3000);
 
 
 
